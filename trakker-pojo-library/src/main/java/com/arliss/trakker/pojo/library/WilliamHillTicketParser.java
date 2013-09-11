@@ -133,10 +133,10 @@ public class WilliamHillTicketParser {
     {
         switch (symbol)
         {
-            case '€':
-                return "EUR";
-            case '£':
-                return "GBP";
+//            case '€':
+//                return "EUR";
+//            case '£':
+//                return "GBP";
             case '$':
                 return "USD";
             default:
