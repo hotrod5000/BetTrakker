@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello trakker-android-library!</string>
+    <string name="lib_name">trakker-android-library</string>
+</resources>
