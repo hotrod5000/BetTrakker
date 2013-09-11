@@ -29,6 +29,13 @@
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.arliss.trakker</groupId>
+            <artifactId>trakker-pojo-library</artifactId>
+            <type>jar</type>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
