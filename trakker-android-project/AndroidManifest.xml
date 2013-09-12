@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".HelloAndroidActivity"/>
-        <service android:enabled="true" android:name="com.arliss.trakker.android.ProcessingService" />
+        <service android:enabled="true" android:name=".library.ProcessingService" />
     </application>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE" >

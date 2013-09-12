@@ -8,6 +8,8 @@ package com.arliss.trakker.android.library;
  * To change this template use File | Settings | File Templates.
  */
 public class Constants {
-    public static String Tag = "AR";
+    public static final String Tag = "AR";
+    public static final String ACTION_RESP =
+            "com.mamlambo.intent.action.MESSAGE_PROCESSED";
 
 }

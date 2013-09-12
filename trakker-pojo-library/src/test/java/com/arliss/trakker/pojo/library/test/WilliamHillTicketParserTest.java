@@ -1,7 +1,7 @@
 package com.arliss.trakker.pojo.library.test;
 
 import com.arliss.trakker.pojo.library.*;
-import junit.framework.Assert;
+import org.junit.Assert;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -162,25 +162,25 @@ public class WilliamHillTicketParserTest {
         Assert.assertEquals("RAVENS",g.getTeam());
         Assert.assertEquals(new DateTime(2013,9,5,0,0,0,0), g.getDateTime());
         Assert.assertEquals(GameBetType.PointsLine, g.getBetType());
-        Assert.assertEquals(9.0f,g.getValue());
+        Assert.assertEquals(9.0f,g.getValue(),0.01f);
 
         g = games.get(1);
         Assert.assertEquals("BILLS",g.getTeam());
         Assert.assertEquals(new DateTime(2013,9,8,0,0,0,0), g.getDateTime());
         Assert.assertEquals(GameBetType.Under, g.getBetType());
-        Assert.assertEquals(49.5f,g.getValue());
+        Assert.assertEquals(49.5f,g.getValue(),0.01f);
 
         g = games.get(2);
         Assert.assertEquals("TITANS",g.getTeam());
         Assert.assertEquals(new DateTime(2013,9,8,0,0,0,0), g.getDateTime());
         Assert.assertEquals(GameBetType.MoneyLine, g.getBetType());
-        Assert.assertEquals(260f,g.getValue());
+        Assert.assertEquals(260f,g.getValue(),0.01f);
 
         g = games.get(3);
         Assert.assertEquals("FALCONS",g.getTeam());
         Assert.assertEquals(new DateTime(2013,9,8,0,0,0,0), g.getDateTime());
         Assert.assertEquals(GameBetType.Over, g.getBetType());
-        Assert.assertEquals(54f,g.getValue());
+        Assert.assertEquals(54f,g.getValue(),0.01f);
 
     }
     @Test
@@ -201,7 +201,7 @@ public class WilliamHillTicketParserTest {
         Assert.assertEquals("DOLPHINS",g.getTeam());
         Assert.assertEquals(new DateTime(2013,9,8,0,0,0,0), g.getDateTime());
         Assert.assertEquals(GameBetType.Over, g.getBetType());
-        Assert.assertEquals(40.5f,g.getValue());
+        Assert.assertEquals(40.5f,g.getValue(),0.01f);
 
 
 

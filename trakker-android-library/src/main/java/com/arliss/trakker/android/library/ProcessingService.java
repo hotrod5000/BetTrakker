@@ -1,4 +1,4 @@
-package com.arliss.trakker.android;
+package com.arliss.trakker.android.library;
 
 import android.app.IntentService;
 import android.content.ContentResolver;
@@ -61,7 +61,7 @@ public class ProcessingService extends IntentService {
                     Ticket t = parser.parse(recognizedText);
                     Log.d(Constants.Tag, recognizedText);
                     Intent broadcastIntent = new Intent();
-                    broadcastIntent.setAction(MyActivity.ResponseReceiver.ACTION_RESP);
+                    broadcastIntent.setAction(Constants.ACTION_RESP);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
                     String message = t.getWagerAmount() + " " + t.getTicketType() +" ticket received";
                     broadcastIntent.putExtra(PARAM_OUT_MSG,message);
