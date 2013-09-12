@@ -43,5 +43,4 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - cd my-android-project
   - mvn clean install
