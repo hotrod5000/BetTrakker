@@ -17,7 +17,7 @@ import com.google.inject.TypeLiteral;
 public class BindingModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(new TypeLiteral<IRepository<Ticket>>(){}).to(TicketRepo2.class);
+        bind(new TypeLiteral<IRepository<Ticket>>(){}).to(TicketRepository.class);
     }
 
 }
