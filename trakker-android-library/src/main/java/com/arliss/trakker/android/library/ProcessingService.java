@@ -9,10 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import com.arliss.trakker.android.library.Constants;
+import com.arliss.trakker.pojo.interfaces.IRepository;
 import com.arliss.trakker.pojo.library.Ticket;
+import com.arliss.trakker.pojo.library.TicketRepository;
 import com.arliss.trakker.pojo.library.WilliamHillTicketParser;
 import com.googlecode.tesseract.android.TessBaseAPI;
+import roboguice.service.RoboIntentService;
 
+import javax.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,12 +28,14 @@ import java.io.InputStream;
  * Time: 6:51 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ProcessingService extends IntentService {
+public class ProcessingService extends RoboIntentService {
     public static final String PARAM_IN_MSG = "imsg";
     public static final String PARAM_OUT_MSG = "omsg";
     WilliamHillTicketParser parser = new WilliamHillTicketParser(Constants.Tag);
+    @Inject
+    IRepository<Ticket> ticketRepo;
     public ProcessingService() {
-        super("SimpleIntentService");
+        super("ProcessingService");
     }
     @Override
     protected void onHandleIntent(Intent intent) {
@@ -60,6 +66,7 @@ public class ProcessingService extends IntentService {
                     baseAPI.end();
                     Ticket t = parser.parse(recognizedText);
                     Log.d(Constants.Tag, recognizedText);
+                    ticketRepo.create(t);
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(Constants.ACTION_RESP);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
