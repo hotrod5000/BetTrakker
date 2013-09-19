@@ -1,6 +1,5 @@
 package com.arliss.trakker.pojo.library;
 
-import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ public class Ticket {
         this.dateTime = dateTime;
     }
 
-    public Money getWagerAmount() {
+    public float getWagerAmount() {
         return wagerAmount;
     }
 
-    public void setWagerAmount(Money wagerAmount) {
+    public void setWagerAmount(float wagerAmount) {
         this.wagerAmount = wagerAmount;
     }
 
@@ -58,7 +57,7 @@ public class Ticket {
     }
 
     DateTime dateTime;
-    Money wagerAmount;
+    float wagerAmount;
     String sportsBook;
     TicketType ticketType;
     List<Game> games;
@@ -66,15 +65,15 @@ public class Ticket {
         games.add(game);
     }
 
-    public Money getPayoff() {
+    public float getPayoff() {
         return payoff;
     }
 
-    public void setPayoff(Money payoff) {
+    public void setPayoff(float payoff) {
         this.payoff = payoff;
     }
 
-    Money payoff;
+    float payoff;
     public int getGameCount() {
         return gameCount;
     }

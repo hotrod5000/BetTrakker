@@ -59,13 +59,13 @@ public class WilliamHillTicketParser {
             {
                 String amount = line.split(":")[1].trim();
                 Money payoff = Money.parse(GetCurrencyCodeFromSymbol(amount.charAt(0)) + " " + amount.substring(1));
-                ticket.setPayoff(payoff);
+                ticket.setPayoff(payoff.getAmount().floatValue());
             }
             else if(trimmed.contains("Cost:"))
             {
                 String amount = line.split(":")[1].trim();
                 Money wager = Money.parse(GetCurrencyCodeFromSymbol(amount.charAt(0)) + " " + amount.substring(1));
-                ticket.setWagerAmount(wager);
+                ticket.setWagerAmount(wager.getAmount().floatValue());
 
             }
             else if(trimmed.split(" ")[0].matches("[0-9O]{1,2}-[a-zA-Z]{3}-[0-9]{4}")) //consider this a date and therefore a game
@@ -182,7 +182,7 @@ public class WilliamHillTicketParser {
             }
             else if(trimmed.startsWith("Bet Cost:"))
             {
-                ticket.setWagerAmount(processWagerAmount(trimmed));
+                ticket.setWagerAmount(processWagerAmount(trimmed).getAmount().floatValue());
             }
             else if(trimmed.contains("Bet Descriptions:"))
             {

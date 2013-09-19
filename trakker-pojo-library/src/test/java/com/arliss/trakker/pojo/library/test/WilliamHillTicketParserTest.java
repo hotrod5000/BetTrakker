@@ -151,11 +151,11 @@ public class WilliamHillTicketParserTest {
         DateTime expected = null;
         Assert.assertEquals(expected,t.getDateTime());
         Money expectedWager = Money.parse("USD 5.00");
-        Assert.assertEquals(expectedWager,t.getWagerAmount());
+        Assert.assertEquals(expectedWager.getAmount().floatValue(),t.getWagerAmount(),0.001);
         Assert.assertEquals("William Hill", t.getSportsBook());
         Assert.assertEquals(TicketType.Parlay,t.getTicketType());
         Assert.assertEquals(4,t.getGameCount());
-        Assert.assertEquals(Money.parse("USD 126"),t.getPayoff());
+        Assert.assertEquals(Money.parse("USD 126").getAmount().floatValue(),t.getPayoff(),0.001);
 
         List<Game> games = t.getGames();
         Game g = games.get(0);
@@ -191,10 +191,10 @@ public class WilliamHillTicketParserTest {
         DateTime expected = null;
         Assert.assertEquals(expected,t.getDateTime());
         Money expectedWager = Money.parse("USD 11.00");
-        Assert.assertEquals(expectedWager,t.getWagerAmount());
+        Assert.assertEquals(expectedWager.getAmount().floatValue(),t.getWagerAmount(),0.001);
         Assert.assertEquals("William Hill", t.getSportsBook());
         Assert.assertEquals(TicketType.StraightBet,t.getTicketType());
-        Assert.assertEquals(Money.parse("USD 21"),t.getPayoff());
+        Assert.assertEquals(Money.parse("USD 21").getAmount().floatValue(),t.getPayoff(),0.001);
 
         List<Game> games = t.getGames();
         Game g = games.get(0);
