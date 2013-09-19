@@ -2,6 +2,7 @@ package com.arliss.trakker.pojo.library;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Time: 1:54 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Ticket {
+public class Ticket implements Serializable {
     public Ticket(){
         games = new ArrayList<Game>();
     }
@@ -84,4 +85,10 @@ public class Ticket {
 
     int gameCount;
 
+    @Override
+    public String toString(){
+        StringBuilder b = new StringBuilder();
+        b.append(ticketType.toString() + wagerAmount);
+        return b.toString();
+    }
 }

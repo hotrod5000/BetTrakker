@@ -3,6 +3,7 @@ package com.arliss.trakker.android.library;
 import android.app.IntentService;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -52,6 +53,7 @@ public class ProcessingService extends RoboIntentService {
                     // Query gallery for camera picture via
                     // Android ContentResolver interface
                     ContentResolver cr = getContentResolver();
+
                     InputStream is = cr.openInputStream(uri);
 
                     byte[] data = toByteArrayUsingJava(is);
@@ -70,8 +72,9 @@ public class ProcessingService extends RoboIntentService {
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(Constants.ACTION_RESP);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-                    String message = t.getWagerAmount() + " " + t.getTicketType() +" ticket received";
-                    broadcastIntent.putExtra(PARAM_OUT_MSG,message);
+                    //String message = t.getWagerAmount() + " " + t.getTicketType() +" ticket received";
+                    broadcastIntent.putExtra(PARAM_OUT_MSG,t);
+
                     sendBroadcast(broadcastIntent);
 
                 } catch (Exception e) {

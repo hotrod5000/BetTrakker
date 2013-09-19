@@ -2,6 +2,8 @@ package com.arliss.trakker.pojo.library;
 
 import org.joda.time.DateTime;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: rodney
@@ -9,7 +11,7 @@ import org.joda.time.DateTime;
  * Time: 9:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Game {
+public class Game implements Serializable {
     public DateTime getDateTime() {
         return dateTime;
     }

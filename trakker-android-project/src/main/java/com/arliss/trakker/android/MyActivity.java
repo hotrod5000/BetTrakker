@@ -10,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 import com.arliss.trakker.android.library.Constants;
 import com.arliss.trakker.android.library.ProcessingService;
+import com.arliss.trakker.pojo.library.Ticket;
 
 
 public class MyActivity extends Activity {
@@ -40,7 +41,15 @@ public class MyActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             Log.d(Constants.Tag, "ResponseReceiver called")     ;
             TextView result = (TextView) findViewById(R.id.textView1);
-            String text = intent.getStringExtra(ProcessingService.PARAM_OUT_MSG);
+            Ticket t = (Ticket)intent.getSerializableExtra(ProcessingService.PARAM_OUT_MSG);
+            String text;
+            if(t == null){
+                text = "Ticket is null";
+            }
+            else
+            {
+                text = t.toString();
+            }
             result.setText(text);
         }
     }
