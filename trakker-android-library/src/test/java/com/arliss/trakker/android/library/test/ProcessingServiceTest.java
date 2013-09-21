@@ -49,9 +49,6 @@ public class ProcessingServiceTest {
         sut.setTicket(getTestTicket());
         final ShadowContentResolver contentResolver = Robolectric.shadowOf(sut.getContentResolver());
         contentResolver.getNotifiedUris();
-        MockContentProvider mockProvider = new MockContentProvider();
-        mockProvider.onCreate();
-        ShadowContentResolver.registerProvider("com.arliss.trakker.android.library.test.MockContentProvider", mockProvider);
         Intent i = new Intent();
         i.setAction(Intent.ACTION_SEND);
         i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///C:/Users/rodney/Dropbox/Screenshot_2013-09-01-21-44-29.png"));
