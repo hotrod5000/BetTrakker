@@ -41,6 +41,10 @@ public class ProcessingService extends RoboIntentService {
     public void setTicket(Ticket t){
         ticket = t;
     }
+
+    public void setTicketRepo(IRepository<Ticket> tr){
+        ticketRepo = tr;
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();

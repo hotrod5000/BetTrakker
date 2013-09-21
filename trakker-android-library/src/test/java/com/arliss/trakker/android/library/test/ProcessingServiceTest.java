@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import com.arliss.trakker.android.library.ProcessingService;
+import com.arliss.trakker.pojo.interfaces.IRepository;
 import com.arliss.trakker.pojo.library.Game;
 import com.arliss.trakker.pojo.library.GameBetType;
 import com.arliss.trakker.pojo.library.Ticket;
@@ -11,9 +12,14 @@ import com.arliss.trakker.pojo.library.TicketType;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowContentResolver;
+import static org.mockito.Mockito.*;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +31,11 @@ import org.robolectric.shadows.ShadowContentResolver;
 
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest=Config.NONE)
 public class ProcessingServiceTest {
+
+    @Mock
+    IRepository<Ticket> mockTicketRepo;
 
     Ticket getTestTicket(){
         Ticket t = new Ticket();
@@ -41,12 +51,15 @@ public class ProcessingServiceTest {
 
         return t;
     }
+
     @Test
     public void CallsCreateOnTicketRepository() throws Exception{
 
-
+        Ticket testTicket = getTestTicket();
+        MockitoAnnotations.initMocks(this);     //this should go somewhere else
         ProcessingServiceTestable sut = new ProcessingServiceTestable();
-        sut.setTicket(getTestTicket());
+        sut.setTicket(testTicket);
+        sut.setTicketRepo(mockTicketRepo);
         final ShadowContentResolver contentResolver = Robolectric.shadowOf(sut.getContentResolver());
         contentResolver.getNotifiedUris();
         Intent i = new Intent();
@@ -54,6 +67,8 @@ public class ProcessingServiceTest {
         i.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///C:/Users/rodney/Dropbox/Screenshot_2013-09-01-21-44-29.png"));
 
         sut.onHandleIntent(i);
+        verify(mockTicketRepo).create(testTicket);
+
 
     }
 
