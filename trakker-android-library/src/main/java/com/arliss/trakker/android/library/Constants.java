@@ -9,7 +9,6 @@ package com.arliss.trakker.android.library;
  */
 public class Constants {
     public static final String Tag = "AR";
-    public static final String ACTION_RESP =
-            "com.mamlambo.intent.action.MESSAGE_PROCESSED";
+    public static final String ShareTicketIntent = "ShareTicketIntent";
 
 }

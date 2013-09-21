@@ -12,7 +12,6 @@ import android.util.Log;
 import com.arliss.trakker.android.library.Constants;
 import com.arliss.trakker.pojo.interfaces.IRepository;
 import com.arliss.trakker.pojo.library.Ticket;
-import com.arliss.trakker.pojo.library.TicketRepository;
 import com.arliss.trakker.pojo.library.WilliamHillTicketParser;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import roboguice.service.RoboIntentService;
@@ -38,10 +37,15 @@ public class ProcessingService extends RoboIntentService {
     public ProcessingService() {
         super("ProcessingService");
     }
+    Ticket ticket = null;
+    public void setTicket(Ticket t){
+        ticket = t;
+    }
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle extras = intent.getExtras();
         String action = intent.getAction();
+
 
         // if this is from the share menu
         if (Intent.ACTION_SEND.equals(action)) {
@@ -55,25 +59,31 @@ public class ProcessingService extends RoboIntentService {
                     ContentResolver cr = getContentResolver();
 
                     InputStream is = cr.openInputStream(uri);
+                    if(ticket == null){
 
-                    byte[] data = toByteArrayUsingJava(is);
 
-                    TessBaseAPI baseAPI = new TessBaseAPI();
+                        byte[] data = toByteArrayUsingJava(is);
 
-                    baseAPI.init(getExternalFilesDir(null).getPath(), "eng");
-                    Bitmap bmp;
-                    bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    baseAPI.setImage(bmp);
-                    String recognizedText = baseAPI.getUTF8Text();
-                    baseAPI.end();
-                    Ticket t = parser.parse(recognizedText);
-                    Log.d(Constants.Tag, recognizedText);
-                    ticketRepo.create(t);
+                        TessBaseAPI baseAPI = new TessBaseAPI();
+
+                        baseAPI.init(getExternalFilesDir(null).getPath(), "eng");
+                        Bitmap bmp;
+                        bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        baseAPI.setImage(bmp);
+                        String recognizedText = baseAPI.getUTF8Text();
+                        baseAPI.end();
+                        ticket = parser.parse(recognizedText);
+                        Log.d(Constants.Tag, recognizedText);
+                    }
+
+
+
+                    ticketRepo.create(ticket);
                     Intent broadcastIntent = new Intent();
-                    broadcastIntent.setAction(Constants.ACTION_RESP);
+                    broadcastIntent.setAction(Constants.ShareTicketIntent);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
                     //String message = t.getWagerAmount() + " " + t.getTicketType() +" ticket received";
-                    broadcastIntent.putExtra(PARAM_OUT_MSG,t);
+                    broadcastIntent.putExtra("Ticket",ticket);
 
                     sendBroadcast(broadcastIntent);
 

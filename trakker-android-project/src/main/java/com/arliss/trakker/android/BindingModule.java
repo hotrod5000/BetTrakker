@@ -2,7 +2,7 @@ package com.arliss.trakker.android;
 
 import com.arliss.trakker.pojo.interfaces.IRepository;
 import com.arliss.trakker.pojo.library.Ticket;
-import com.arliss.trakker.pojo.library.TicketRepository;
+import com.arliss.trakker.android.library.TicketRepository;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 

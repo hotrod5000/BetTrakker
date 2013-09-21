@@ -1,5 +1,7 @@
 package com.arliss.trakker.android.test;
 
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import com.arliss.trakker.android.*;
 import com.arliss.trakker.android.library.Library;

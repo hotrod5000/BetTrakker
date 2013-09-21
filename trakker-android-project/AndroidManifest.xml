@@ -32,6 +32,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".HelloAndroidActivity"/>
+        <activity
+            android:name=".TicketActivity"
+            android:label="whatgoodisalabel"/>
+
         <service android:enabled="true" android:name=".library.ProcessingService" />
     </application>
     <uses-permission

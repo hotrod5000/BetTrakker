@@ -9,5 +9,9 @@
   <instrumentation android:targetPackage="com.arliss.trakker.android"
     android:name="android.test.InstrumentationTestRunner" />
 
+    <activity
+        android:name=".TicketActivity"
+        android:label="whatgoodisalabel"/>
+
 </manifest>
 
