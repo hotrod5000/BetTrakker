@@ -1,5 +1,9 @@
 package com.arliss.trakker.pojo.interfaces;
 
+import com.arliss.trakker.pojo.library.Ticket;
+
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: rodney
@@ -8,6 +12,7 @@ package com.arliss.trakker.pojo.interfaces;
  * To change this template use File | Settings | File Templates.
  */
 public interface IRepository<T> {
-    T getAll();
+    List<Ticket> getAll();
     void create(T item);
+    Boolean contains(T item);
 }

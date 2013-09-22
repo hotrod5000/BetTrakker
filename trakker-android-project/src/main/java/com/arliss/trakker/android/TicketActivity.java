@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.arliss.trakker.android.library.Constants;
+import com.arliss.trakker.pojo.interfaces.IRepository;
 import com.arliss.trakker.pojo.library.Game;
 import com.arliss.trakker.pojo.library.Ticket;
+import org.joda.time.DateTime;
+import roboguice.activity.RoboListActivity;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,7 +29,11 @@ import java.util.ArrayList;
  * Time: 10:23 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TicketActivity extends ListActivity {
+public class TicketActivity extends RoboListActivity {
+
+    @Inject
+    IRepository<Ticket> ticketRepo;
+
     private GameAdapter m_adapter;
     ArrayList<Game> m_games;
     public void onCreate(Bundle savedInstanceState) {
@@ -34,10 +43,37 @@ public class TicketActivity extends ListActivity {
         Intent intent = getIntent();
         Ticket t = (Ticket)intent.getSerializableExtra("Ticket");
         m_games = new ArrayList<Game>(t.getGames());
-        Log.d(Constants.Tag, m_games + " games on ticket");
         this.m_adapter = new GameAdapter(this, R.layout.row, m_games);
         setListAdapter(this.m_adapter);
 
+        setTicketDate(t.getDateTime());
+        setTicketType(t.getTicketType().toString());
+
+        if(ticketRepo == null){
+            Log.d(Constants.Tag, "ticketRepo is null, inject is crap");
+        }
+        else
+        {
+            Log.d(Constants.Tag, "ticketRepo is NOT null, inject is sweet");
+            List<Ticket> tickets = ticketRepo.getAll();
+            Log.d(Constants.Tag,"get all returned " + tickets.size() + " tickets");
+            int i=1;
+            for (Ticket tick : tickets){
+                Log.d(Constants.Tag,"ticket " + i++ + " : gamecount=" + tick.getGames().size());
+            }
+
+        }
+
+    }
+
+    private void setTicketType(String s) {
+        TextView tv = (TextView)findViewById(R.id.ticketType);
+        tv.setText(s);
+    }
+
+    private void setTicketDate(DateTime dateTime) {
+        TextView tv = (TextView)findViewById(R.id.ticketDate);
+        tv.setText(dateTime.toString());
     }
 
     private class GameAdapter extends ArrayAdapter<Game> {
@@ -61,7 +97,8 @@ public class TicketActivity extends ListActivity {
                 TextView tt = (TextView) v.findViewById(R.id.toptext);
                 TextView bt = (TextView) v.findViewById(R.id.bottomtext);
                 if (tt != null) {
-                    tt.setText("Name: "+o.getTeam());                            }
+                    tt.setText("Name: "+o.getTeam());
+                }
                 if(bt != null){
                     bt.setText("Status: "+ o.getValue());
                 }

@@ -29,7 +29,6 @@ public class MyApplication extends Application {
 
 
     private void copyAssets() {
-        Log.d(Constants.Tag,"copying tessdata file");
         String tessDataFolder = "tessdata";
         AssetManager assetManager = getAssets();
         String[] files = null;
@@ -47,11 +46,18 @@ public class MyApplication extends Application {
                 in = assetManager.open(tessDataFolder + "/" + filename);
                 new File(getExternalFilesDir(null).getPath() +"/" + tessDataFolder).mkdirs();
                 File outFile = new File(getExternalFilesDir(null).getPath() +"/" + tessDataFolder, filename);
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
+                if(outFile.exists()){
+                    Log.d(Constants.Tag, "tessdata file already exists at " + outFile.getAbsolutePath());
+                }
+                else
+                {
+                    Log.d(Constants.Tag,"copying tessdata file to " + outFile.getAbsolutePath());
+                    out = new FileOutputStream(outFile);
+                    copyFile(in, out);
+                    out.flush();
+                    out.close();
+                }
                 in.close();
-                out.flush();
-                out.close();
             } catch(Exception e) {
                 Log.e(Constants.Tag, "Failed to copy asset file: " + filename, e);
             }

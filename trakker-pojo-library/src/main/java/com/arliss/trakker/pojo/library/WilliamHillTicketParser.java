@@ -42,6 +42,7 @@ public class WilliamHillTicketParser {
 
     private Ticket handleConfirmationScreen(String input) {
         Ticket ticket = new Ticket();
+        ticket.setDateTime(DateTime.now());
         String[] lines = input.split("\n");
 
         for(int i=0;i<lines.length;i++)
@@ -79,6 +80,12 @@ public class WilliamHillTicketParser {
                 }
                 Game g = ProcessGame(gameLine);
                 ticket.addGame(g);
+            }
+            else if(trimmed.startsWith("Ticket"))
+            {
+                String[] split = trimmed.split(":");
+                String id = split[split.length-1].trim();
+                ticket.setSourceId(id);
             }
 
         }
@@ -161,6 +168,7 @@ public class WilliamHillTicketParser {
 
     private Ticket handleTicketInfo(String input) {
         Ticket ticket = new Ticket();
+        ticket.setDateTime(DateTime.now());
         if(input.contains("Type: PARL"))
         {
             ticket.setTicketType(TicketType.Parlay);

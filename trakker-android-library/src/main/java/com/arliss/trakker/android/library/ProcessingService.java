@@ -81,8 +81,9 @@ public class ProcessingService extends RoboIntentService {
                     }
 
 
-
-                    ticketRepo.create(ticket);
+                    if(!ticketRepo.contains(ticket)){
+                        ticketRepo.create(ticket);
+                    }
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(Constants.ShareTicketIntent);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -92,7 +93,7 @@ public class ProcessingService extends RoboIntentService {
                     sendBroadcast(broadcastIntent);
 
                 } catch (Exception e) {
-                    Log.e(Constants.Tag, e.toString());
+                    Log.e(Constants.Tag, e.toString() + "\n" + e.getStackTrace());
                 }
             }
         }

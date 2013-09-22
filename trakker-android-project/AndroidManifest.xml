@@ -35,6 +35,9 @@
         <activity
             android:name=".TicketActivity"
             android:label="whatgoodisalabel"/>
+        <activity
+            android:name=".AllTicketsActivity"
+            android:label="All Tickets"/>
 
         <service android:enabled="true" android:name=".library.ProcessingService" />
     </application>

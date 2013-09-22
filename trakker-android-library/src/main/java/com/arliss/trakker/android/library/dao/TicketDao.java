@@ -69,7 +69,9 @@ public class TicketDao {
     @ForeignCollectionField(eager = true)
     ForeignCollection<GameDao> games;
 
-
+    public ForeignCollection<GameDao> getGames(){
+        return games;
+    }
 
     public float getPayoff() {
         return payoff;

@@ -85,6 +85,16 @@ public class Ticket implements Serializable {
 
     int gameCount;
 
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    String sourceId;
+
     @Override
     public String toString(){
         StringBuilder b = new StringBuilder();
