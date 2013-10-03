@@ -5,4 +5,27 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:background="#008800">
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="register"
+        android:id="@+id/register"
+        android:onClick="register"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="unregister"
+        android:id="@+id/button"
+        android:layout_gravity="left|center_vertical"
+        android:clickable="true"
+        android:onClick="unregister"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World, MyActivity"
+        />
+
 </LinearLayout>

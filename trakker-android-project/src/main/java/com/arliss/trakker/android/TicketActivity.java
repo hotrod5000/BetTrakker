@@ -34,6 +34,7 @@ public class TicketActivity extends RoboListActivity {
     @Inject
     IRepository<Ticket> ticketRepo;
 
+
     private GameAdapter m_adapter;
     ArrayList<Game> m_games;
     public void onCreate(Bundle savedInstanceState) {

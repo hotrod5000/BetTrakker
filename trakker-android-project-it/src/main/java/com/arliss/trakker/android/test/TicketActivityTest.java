@@ -7,6 +7,7 @@ import com.arliss.trakker.android.HelloAndroidActivity;
 import com.arliss.trakker.android.TicketActivity;
 import com.arliss.trakker.pojo.library.Game;
 import com.arliss.trakker.pojo.library.Ticket;
+import org.junit.Ignore;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,6 +37,7 @@ public class TicketActivityTest extends ActivityInstrumentationTestCase2<TicketA
         setActivityIntent(i);
         //mActivity = this.getActivity();
     }
+    @Ignore
     public void testActivity() {
         TicketActivity activity = getActivity();
         assertNotNull(activity);

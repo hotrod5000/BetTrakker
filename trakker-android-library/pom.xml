@@ -75,7 +75,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<sdk>
-						<platform>16</platform>
+						<platform>18</platform>
 					</sdk>
 				</configuration>
 			</plugin>
