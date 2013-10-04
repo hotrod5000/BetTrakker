@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import com.arliss.trakker.android.R;
 import com.arliss.trakker.android.library.Constants;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import org.apache.http.Consts;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
