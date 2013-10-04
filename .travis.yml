@@ -32,13 +32,15 @@ before_install:
   - echo yes | android update sdk --filter extra-android-m2repository --no-ui --force > /dev/null
   - echo yes | android update sdk --filter extra-google-google_play_services --no-ui --force > /dev/null
 
-
+  -$PWD = pwd
   - git clone https://github.com/mosabua/maven-android-sdk-deployer.git
-  - cd maven-android-sdk-deployer/extras/google-play-services
+  - pushd maven-android-sdk-deployer/extras/google-play-services
   - mvn install
-  - cd ../compatibility-v4
+  - pushd ../compatibility-v4
   - mvn install
 
+  -popd
+  -popd
 
   # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
