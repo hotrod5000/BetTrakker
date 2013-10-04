@@ -65,6 +65,18 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>google-play-services</artifactId>
+            <version>10</version>
+            <type>apklib</type>
+        </dependency>
+        <dependency>
+            <groupId>com.google.android.gms</groupId>
+            <artifactId>google-play-services</artifactId>
+            <version>10</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>android.support</groupId>
             <artifactId>compatibility-v4</artifactId>
             <version>18</version>
