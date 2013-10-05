@@ -1,5 +1,7 @@
 package com.arliss.trakker.pojo.library;
 
+import com.google.gson.Gson;
+
 /**
  * Created with IntelliJ IDEA.
  * User: rodney
@@ -9,22 +11,28 @@ package com.arliss.trakker.pojo.library;
  */
 public class TeamScore {
 
-    String team;
-    int score;
+    String Team;
+    int Score;
 
     public String getTeam() {
-        return team;
+        return Team;
     }
 
     public void setTeam(String team) {
-        this.team = team;
+        this.Team = team;
     }
 
     public int getScore() {
-        return score;
+        return Score;
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.Score = score;
+    }
+
+    public static TeamScore fromJson(String json){
+        Gson gson = new Gson();
+        TeamScore s = gson.fromJson(json, TeamScore.class);
+        return s;
     }
 }

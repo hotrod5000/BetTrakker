@@ -1,7 +1,8 @@
 package com.arliss.trakker.pojo.library.test;
 
 import com.arliss.trakker.pojo.library.*;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
+import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -10,11 +11,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +82,25 @@ public class Class1Test {
         }
         return null;
     }
+
+    @Test
+    public void gameScoreFromJson(){
+        String rawJson = "[{\"League\":\"NFL\",\"GameStatus\":\"FINAL\",\"Team1\":{\"Team\":\"NYJ\",\"Score\":21},\"Team2\":{\"Team\":\"BAL\",\"Score\":10},\"EventDate\":\"2013-09-29T00:00:00\"},{\"League\":\"NFL\",\"GameStatus\":\"FINAL\",\"Team1\":{\"Team\":\"CIN\",\"Score\":6},\"Team2\":{\"Team\":\"CLE\",\"Score\":17},\"EventDate\":\"2013-09-29T00:00:00\"}]";
+
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        gsonBuilder.registerTypeAdapter(DateTime.class, new JodaDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+
+        GameScore[] scores = gson.fromJson(rawJson, GameScore[].class);
+        Assert.assertEquals(scores.length, 2);
+
+        Assert.assertEquals("FINAL", scores[0].getGameStatus());
+
+    }
+
+
     @Ignore
     @Test
     public void testFootballScores() throws Exception{

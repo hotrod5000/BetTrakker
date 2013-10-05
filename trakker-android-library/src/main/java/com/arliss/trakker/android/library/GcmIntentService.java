@@ -12,7 +12,13 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
+import com.arliss.trakker.pojo.library.GameScore;
+import com.arliss.trakker.pojo.library.JodaDateTimeDeserializer;
+import com.arliss.trakker.pojo.library.TeamScore;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.joda.time.DateTime;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,7 +64,7 @@ public class GcmIntentService extends IntentService {
                 // If it's a regular GCM message, do some work.
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
                 // Post notification of received message.
-                sendNotification("Received: " + extras.toString());
+                processMessage(extras);
                 Log.i(Constants.Tag, "Received: " + extras.toString());
             }
         }
@@ -66,6 +72,16 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
     private void sendNotification(String msg){
+
+    }
+    private void processMessage(Bundle msg){
+        String json = msg.getString("Scores");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        gsonBuilder.registerTypeAdapter(DateTime.class, new JodaDateTimeDeserializer());
+        Gson gson = gsonBuilder.create();
+        GameScore[] ss = gson.fromJson(json, GameScore[].class);
+
 
     }
     // Put the message into a notification and post it.

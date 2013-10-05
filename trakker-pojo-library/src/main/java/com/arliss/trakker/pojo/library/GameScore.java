@@ -1,5 +1,6 @@
 package com.arliss.trakker.pojo.library;
 
+import com.google.gson.Gson;
 import org.joda.time.DateTime;
 
 /**
@@ -11,41 +12,55 @@ import org.joda.time.DateTime;
  */
 public class GameScore {
 
-    TeamScore team1;
-    TeamScore team2;
-    String gameStatus;
-    DateTime eventDate;
+    TeamScore Team1;
+    TeamScore Team2;
+    String GameStatus;
+    DateTime EventDate;
+    String League;
 
+    public String getLeague() {
+        return League;
+    }
+
+    public void setLeague(String league) {
+        this.League = league;
+    }
 
     public TeamScore getTeam1() {
-        return team1;
+        return Team1;
     }
 
     public void setTeam1(TeamScore team1) {
-        this.team1 = team1;
+        this.Team1 = team1;
     }
 
     public TeamScore getTeam2() {
-        return team2;
+        return Team2;
     }
 
     public void setTeam2(TeamScore team2) {
-        this.team2 = team2;
+        this.Team2 = team2;
     }
 
     public String getGameStatus() {
-        return gameStatus;
+        return GameStatus;
     }
 
     public void setGameStatus(String gameStatus) {
-        this.gameStatus = gameStatus;
+        this.GameStatus = gameStatus;
     }
 
     public DateTime getEventDate() {
-        return eventDate;
+        return EventDate;
     }
 
     public void setEventDate(DateTime eventDate) {
-        this.eventDate = eventDate;
+        this.EventDate = eventDate;
+    }
+
+    public static GameScore FromJson(String json){
+        Gson gson = new Gson();
+        GameScore gs = gson.fromJson(json, GameScore.class);
+        return gs;
     }
 }
