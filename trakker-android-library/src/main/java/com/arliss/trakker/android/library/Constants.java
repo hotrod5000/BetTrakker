@@ -8,7 +8,7 @@ package com.arliss.trakker.android.library;
  * To change this template use File | Settings | File Templates.
  */
 public class Constants {
-    public static final String Tag = "AR";
+    public static final String Tag = "Trakker";
     public static final String ShareTicketIntent = "ShareTicketIntent";
 
 }

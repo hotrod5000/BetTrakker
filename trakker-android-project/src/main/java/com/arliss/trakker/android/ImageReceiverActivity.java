@@ -7,28 +7,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.arliss.trakker.android.library.Constants;
 import com.arliss.trakker.android.library.ProcessingService;
-import com.arliss.trakker.pojo.library.Game;
 import com.arliss.trakker.pojo.library.Ticket;
 
-import java.util.ArrayList;
 
+public class ImageReceiverActivity extends Activity {
 
-public class MyActivity extends Activity {
-
+    private TextView mTextView;
     private ResponseReceiver receiver;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.image_receiver);
 
-
+        mTextView = (TextView) findViewById(R.id.textView1);
 
         IntentFilter filter = new IntentFilter(Constants.ShareTicketIntent);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -43,7 +37,8 @@ public class MyActivity extends Activity {
         Intent serviceIntent = new Intent(this,ProcessingService.class);
         serviceIntent.setAction(action);
         serviceIntent.putExtras(extras);
-        Log.d(Constants.Tag,"Starting ProcessingService");
+        Log.d(Constants.Tag, "Starting ProcessingService");
+        mTextView.append("Starting ProcessingService\n");
         startService(serviceIntent);
 
 
@@ -52,7 +47,8 @@ public class MyActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(Constants.Tag, "ResponseReceiver called")     ;
+            mTextView.append("\nResponseReceiver called\n");
+            Log.d(Constants.Tag, "ResponseReceiver called");
             TextView result = (TextView) findViewById(R.id.textView1);
             Ticket t = (Ticket)intent.getSerializableExtra("Ticket");
             String text;

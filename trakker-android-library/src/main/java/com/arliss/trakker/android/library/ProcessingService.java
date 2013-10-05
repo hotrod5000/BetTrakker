@@ -29,8 +29,6 @@ import java.io.InputStream;
  * To change this template use File | Settings | File Templates.
  */
 public class ProcessingService extends RoboIntentService {
-    public static final String PARAM_IN_MSG = "imsg";
-    public static final String PARAM_OUT_MSG = "omsg";
     WilliamHillTicketParser parser = new WilliamHillTicketParser(Constants.Tag);
     @Inject
     IRepository<Ticket> ticketRepo;
@@ -64,15 +62,12 @@ public class ProcessingService extends RoboIntentService {
 
                     InputStream is = cr.openInputStream(uri);
                     if(ticket == null){
-
-
-                        byte[] data = toByteArrayUsingJava(is);
-
                         TessBaseAPI baseAPI = new TessBaseAPI();
-
                         baseAPI.init(getExternalFilesDir(null).getPath(), "eng");
                         Bitmap bmp;
-                        bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                        bmp = BitmapFactory.decodeStream(is,null,options);
                         baseAPI.setImage(bmp);
                         String recognizedText = baseAPI.getUTF8Text();
                         baseAPI.end();
@@ -87,7 +82,6 @@ public class ProcessingService extends RoboIntentService {
                     Intent broadcastIntent = new Intent();
                     broadcastIntent.setAction(Constants.ShareTicketIntent);
                     broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-                    //String message = t.getWagerAmount() + " " + t.getTicketType() +" ticket received";
                     broadcastIntent.putExtra("Ticket",ticket);
 
                     sendBroadcast(broadcastIntent);
@@ -99,13 +93,5 @@ public class ProcessingService extends RoboIntentService {
         }
 
     }
-    public static byte[] toByteArrayUsingJava(InputStream is) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        int reads = is.read();
-        while (reads != -1) {
-            baos.write(reads);
-            reads = is.read();
-        }
-        return baos.toByteArray();
-    }
+
 }
