@@ -12,7 +12,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface IRepository<T> {
-    List<Ticket> getAll();
+    List<T> getAll();
     void create(T item);
     Boolean contains(T item);
 }

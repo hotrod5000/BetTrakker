@@ -1,6 +1,8 @@
 package com.arliss.trakker.android;
 
+import com.arliss.trakker.android.library.GameScoreRepository;
 import com.arliss.trakker.pojo.interfaces.IRepository;
+import com.arliss.trakker.pojo.library.GameScore;
 import com.arliss.trakker.pojo.library.Ticket;
 import com.arliss.trakker.android.library.TicketRepository;
 import com.google.inject.AbstractModule;
@@ -17,6 +19,7 @@ public class BindingModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(new TypeLiteral<IRepository<Ticket>>(){}).to(TicketRepository.class);
+        bind(new TypeLiteral<IRepository<GameScore>>(){}).to(GameScoreRepository.class);
     }
 
 }

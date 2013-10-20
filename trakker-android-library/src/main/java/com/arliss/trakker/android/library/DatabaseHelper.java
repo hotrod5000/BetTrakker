@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import com.arliss.trakker.android.library.dao.GameDao;
+import com.arliss.trakker.android.library.dao.GameScoreDao;
+import com.arliss.trakker.android.library.dao.TeamScoreDao;
 import com.arliss.trakker.android.library.dao.TicketDao;
 import com.arliss.trakker.pojo.library.Game;
 import com.arliss.trakker.pojo.library.Ticket;
@@ -31,9 +33,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     // the DAO object we use to access the Ticket table
     private RuntimeExceptionDao<TicketDao, Integer> ticketRuntimeDao = null;
-
-
     private RuntimeExceptionDao<GameDao, Integer> gameRuntimeDao = null;
+    private RuntimeExceptionDao<GameScoreDao, Integer> gameScoreRuntimeDao = null;
+    private RuntimeExceptionDao<TeamScoreDao, Integer> teamScoreRuntimeDao = null;
+
 
 
     public DatabaseHelper(Context context) {
@@ -50,6 +53,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(Constants.Tag, "onCreate " + getClass().getSimpleName());
             TableUtils.createTable(connectionSource, TicketDao.class);
             TableUtils.createTable(connectionSource, GameDao.class);
+            TableUtils.createTable(connectionSource, GameScoreDao.class);
+            TableUtils.createTable(connectionSource, TeamScoreDao.class);
         } catch (SQLException e) {
             Log.e(Constants.Tag, "Can't create database", e);
             throw new RuntimeException(e);
@@ -66,6 +71,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             Log.i(Constants.Tag, "onUpgrade");
             TableUtils.dropTable(connectionSource, TicketDao.class, true);
             TableUtils.dropTable(connectionSource, GameDao.class, true);
+            TableUtils.dropTable(connectionSource, GameScoreDao.class, true);
+            TableUtils.dropTable(connectionSource, TeamScoreDao.class, true);
             // after we drop the old databases, we create the new ones
             onCreate(db, connectionSource);
         } catch (SQLException e) {
@@ -74,27 +81,30 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
     }
 
-
-
-    /**
-     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our SimpleData class. It will
-     * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
-     */
     public RuntimeExceptionDao<TicketDao, Integer> getTicketDao() {
         if (ticketRuntimeDao == null) {
             ticketRuntimeDao = getRuntimeExceptionDao(TicketDao.class);
         }
         return ticketRuntimeDao;
     }
-    /**
-     * Returns the RuntimeExceptionDao (Database Access Object) version of a Dao for our SimpleData class. It will
-     * create it or just give the cached value. RuntimeExceptionDao only through RuntimeExceptions.
-     */
+
     public RuntimeExceptionDao<GameDao, Integer> getGameDao() {
         if (gameRuntimeDao == null) {
             gameRuntimeDao = getRuntimeExceptionDao(GameDao.class);
         }
         return gameRuntimeDao;
+    }
+    public RuntimeExceptionDao<GameScoreDao, Integer> getGameScoreDao() {
+        if (gameScoreRuntimeDao == null) {
+            gameScoreRuntimeDao = getRuntimeExceptionDao(GameScoreDao.class);
+        }
+        return gameScoreRuntimeDao;
+    }
+    public RuntimeExceptionDao<TeamScoreDao, Integer> getTeamScoreDao() {
+        if (teamScoreRuntimeDao == null) {
+            teamScoreRuntimeDao = getRuntimeExceptionDao(TeamScoreDao.class);
+        }
+        return teamScoreRuntimeDao;
     }
 
     /**

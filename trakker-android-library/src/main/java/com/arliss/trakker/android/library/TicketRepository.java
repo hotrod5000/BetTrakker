@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  * To change this template use File | Settings | File Templates.
  */
 public class TicketRepository implements IRepository<Ticket> {
-    private final static Logger logger = Logger.getLogger("AR");
+    private final static Logger logger = Logger.getLogger(Constants.Tag);
 
     public TicketRepository() {
         Log.d(Constants.Tag,"TicketRepository constructor");
@@ -61,7 +61,6 @@ public class TicketRepository implements IRepository<Ticket> {
     public void create(Ticket item) {
 
         DatabaseHelper databaseHelper = OpenHelperManager.getHelper(application.getApplicationContext(), DatabaseHelper.class);
-        logger.info("Write ticket to repo - implemented");
 
         TicketDao ticketDao = convertToTicketDao(item);
 
