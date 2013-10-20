@@ -11,4 +11,6 @@ public class Constants {
     public static final String Tag = "Trakker";
     public static final String ShareTicketIntent = "ShareTicketIntent";
 
+    public static final String App_Server_Url = "http://trakker2.azurewebsites.net/api/gcmreg";
+
 }

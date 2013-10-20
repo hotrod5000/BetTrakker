@@ -6,16 +6,22 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.arliss.trakker.android.library.Constants;
+import com.arliss.trakker.pojo.library.HttpHelpers;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.GsonBuilder;
+import org.apache.http.HttpResponse;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -30,7 +36,7 @@ public class HomeActivity extends Activity {
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
+    Boolean isEmulator = false;
     /**
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."
@@ -45,31 +51,6 @@ public class HomeActivity extends Activity {
 
     String regid;
 
-    public void unregister(View v)
-    {
-        try {
-            gcm.unregister();
-            mDisplay.append("unregistered\n\n");
-        }
-        catch(IOException ioe){
-            Log.e(Constants.Tag, "Error unregistering", ioe);
-            mDisplay.append("Error unregistering");
-        }
-
-    }
-    public void register(View v)
-    {
-        registerInBackground();
-
-//        regid = getRegistrationId(context);
-//        mDisplay.append("regid = " + regid + "\n\n");
-//        if (regid.isEmpty()) {
-//
-//            registerInBackground();
-//        }
-
-
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +59,14 @@ public class HomeActivity extends Activity {
         mDisplay = (TextView) findViewById(R.id.textView2);
 
         context = getApplicationContext();
+        String buildBrand = Build.BRAND;
+        Log.d(Constants.Tag, "Build.Brand = " + buildBrand);
+        if(buildBrand.contains("generic") || buildBrand.contains("unknown") )
+        {
+            Log.d(Constants.Tag,"Build.BRAND contains 'unknown', assuming emulator and bypassing check for google play services");
+            isEmulator = true;
+            return;
+        }
 
         // Check device for Play Services APK. If check succeeds, proceed with GCM registration.
         if (checkPlayServices()) {
@@ -87,6 +76,23 @@ public class HomeActivity extends Activity {
             if (regid.isEmpty()) {
                 registerInBackground();
             }
+            else{
+                //fire off to our app server, just to be sure we have the GcmRegId
+                new AsyncTask<Void,Void,String>(){
+                    @Override
+                    protected String doInBackground(Void... params){
+                        String msg = "";
+                        sendRegistrationIdToBackend();
+                        storeRegistrationId(context, regid);
+                        return msg;
+                    }
+                    @Override
+                    protected void onPostExecute(String msg) {
+                        mDisplay.append(msg + "\n");
+                    }
+                }.execute(null, null, null);
+            }
+
         } else {
             Log.i(Constants.Tag, "No valid Google Play Services APK found.");
         }
@@ -272,6 +278,23 @@ public class HomeActivity extends Activity {
      * to a server that echoes back the message using the 'from' address in the message.
      */
     private void sendRegistrationIdToBackend() {
-        // Your implementation here.
+        Map<String, String> comment = new HashMap<String, String>();
+        comment.put("GcmRegId", regid);
+        String json = new GsonBuilder().create().toJson(comment, Map.class);
+        HttpResponse response = null;
+        try{
+            String message = "Making POST request to " + Constants.App_Server_Url + " with json '" + json + "'";
+            Log.d(Constants.Tag, message);
+            response = HttpHelpers.makeRequest(Constants.App_Server_Url, json);
+
+        }
+        catch(Exception e){
+            Log.e(Constants.Tag, "Exception sending registration id to Trakker app server", e);
+        }
+        finally {
+            Log.d(Constants.Tag, "Response code = " + response.getStatusLine().getStatusCode());
+        }
+
+
     }
 }

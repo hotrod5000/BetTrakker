@@ -64,24 +64,9 @@ public class Class1Test {
         comment.put("GcmRegId", "xxx");
         comment.put("RegId", "10");
         String json = new GsonBuilder().create().toJson(comment, Map.class);
-        makeRequest("http://localhost:60022/api/GcmReg", json);
+        HttpHelpers.makeRequest("http://localhost:60022/api/GcmReg", json);
     }
-    public static HttpResponse makeRequest(String uri, String json) {
-        try {
-            HttpPost httpPost = new HttpPost(uri);
-            httpPost.setEntity(new StringEntity(json));
-            httpPost.setHeader("Accept", "application/json");
-            httpPost.setHeader("Content-type", "application/json");
-            return new DefaultHttpClient().execute(httpPost);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     @Test
     public void gameScoreFromJson(){

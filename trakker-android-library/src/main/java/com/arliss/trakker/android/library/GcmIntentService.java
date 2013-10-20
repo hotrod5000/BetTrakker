@@ -82,7 +82,17 @@ public class GcmIntentService extends IntentService {
         Gson gson = gsonBuilder.create();
         GameScore[] ss = gson.fromJson(json, GameScore[].class);
 
+        LogMessage(ss);
 
+    }
+
+    private void LogMessage(GameScore[] scores) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Received score update from app server\n");
+        for(GameScore score : scores){
+            builder.append(score.toString() + "\n");
+        }
+        Log.d(Constants.Tag, builder.toString());
     }
     // Put the message into a notification and post it.
     // This is just one simple example of what you might choose to do with

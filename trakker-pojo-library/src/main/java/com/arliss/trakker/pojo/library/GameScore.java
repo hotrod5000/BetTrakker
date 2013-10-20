@@ -63,4 +63,9 @@ public class GameScore {
         GameScore gs = gson.fromJson(json, GameScore.class);
         return gs;
     }
+
+    @Override
+    public String toString(){
+        return getTeam1().getTeam() + " " + getTeam1().getScore() + " " + getTeam2().getTeam() + " " + getTeam2().getScore();
+    }
 }
